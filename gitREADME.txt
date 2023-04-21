@@ -25,7 +25,8 @@ General workflow:
     change in a commit
     Example: git add gitREADME.txt 
 
-6) Repeat 5) until all the changes you want to commit have been added
+6) Repeat 5) until all the changes you want to commit have been added. Optionally,
+    run `git status` again, and the changes you've added will be show in green!
 
 7) 'git commit -m "<commit message>"' to bundle up all of your changes into a commit
     Your commit messages don't have to be super specific, but should be more detailed
