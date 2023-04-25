@@ -1,6 +1,7 @@
 add_subdirectory(bilateral_filtering)
 add_subdirectory(corners)
 add_subdirectory(demosaicing)
+add_subdirectory(final_project)
 add_subdirectory(geometric_transformation)
 add_subdirectory(histogram_enhancement)
 add_subdirectory(key_encryption)
