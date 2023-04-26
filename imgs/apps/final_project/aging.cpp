@@ -1,6 +1,6 @@
 /** Application file for FILL
  *
- *  \file apps/FOLDER/FILENAME.cpp
+ *  \file apps/final_project/Aging.cpp
  *  \author Anna Mason (axm2129@rit.edu)
  *  \date 01 May 2023
  */
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
   cv::Mat src;
-  src = cv::imread(src_filename, cv::IMREAD_GRAYSCALE);
+  src = cv::imread(src_filename, cv::IMREAD_UNCHANGED);
 
   if (verbose) {
     cout << "Source filename: " << src_filename << endl;
@@ -66,20 +66,25 @@ int main(int argc, char* argv[]) {
 
   cv::Mat dst;
   cv::Mat mask;
+  string mask_filename =
+      "/cis/ugrad/axm2129/ipcv_final_project/IMGS362Final/data/images/"
+      "final_project/temp_mask.tif";
+  mask = cv::imread(mask_filename, cv::IMREAD_UNCHANGED);
+
   bool status;
   clock_t startTime = clock();
   if (src.channels() == 1) {
     status = ipcv::backgroundBlur(src, mask, dst);
   } else {
-    cerr << "Invalid source image, must be a 1 channel bayer pattern src "
-            "image. The source image had "
+    cerr << "Invalid source image, must be a 1 channel grayscale image. The "
+            "source image had "
          << src.channels() << " channel(s)." << endl;
     return EXIT_FAILURE;
   }
   clock_t endTime = clock();
 
   if (status == true) {
-    cout << "CFA Kodak completed successfully" << endl;
+    cout << "Background Blur completed successfully" << endl;
   } else {
     return EXIT_FAILURE;
   }

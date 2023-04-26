@@ -11,18 +11,14 @@
 
 namespace ipcv {
 
-/** Description
+/** Function for blurring the "background" of an image with a person
  *
- *  \param[in] src             source cv::Mat of CV_8UC3
+ *  \param[in] src             source image of CV_32FC1
+ *  \param[in] mask            mask cv::Mat of CV_32FC1 (1 is the face, 0 is
+ *                             the background)
+ *
  *  \param[out] dst            destination cv::Mat of ddepth type
- *  \param[in] sigma_distance  standard deviation of distance/closeness filter
- *  \param[in] sigma_range     standard deviation of range/similarity filter
- *  \param[in] radius          radius of the bilateral filter (if negative, use
- *                             twice the standard deviation of the distance/
- *                             closeness filter)
- *  \param[in] border_mode     pixel extrapolation method
- *  \param[in] border_value    value to use for constant border mode
  */
-bool backgroundBlur(const cv::Mat& src, const cv::Mat& mask, cv::Mat& dst);
+bool backgroundBlur(const cv::Mat& src, cv::Mat& mask, cv::Mat& dst);
 }
 
