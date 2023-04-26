@@ -65,10 +65,11 @@ int main(int argc, char* argv[]) {
   }
 
   cv::Mat dst;
+  cv::Mat mask;
   bool status;
   clock_t startTime = clock();
   if (src.channels() == 1) {
-    status = ipcv::cfaKodak(src, dst);
+    status = ipcv::backgroundBlur(src, mask, dst);
   } else {
     cerr << "Invalid source image, must be a 1 channel bayer pattern src "
             "image. The source image had "
