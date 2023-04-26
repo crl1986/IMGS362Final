@@ -1,8 +1,8 @@
-/** Interface file for FILE
+/** Interface file for IPCV final projec
  *
- *  \file ipcv/FOLDER/FILENAME.h
+ *  \file ipcv/final_project/Aging.h
  *  \author Anna Mason (axm2129@rit.edu)
- *  \date ## Mon 2023
+ *  \date 01 May 2023
  */
 
 #pragma once
@@ -21,4 +21,3 @@ namespace ipcv {
  */
 bool backgroundBlur(const cv::Mat& src, cv::Mat& mask, cv::Mat& dst);
 }
-

@@ -1,11 +1,12 @@
-/** Implementation file for FILL
+/** Implementation file for IPCV final project
  *
- *  \file ipcv/folder/FILLNAME.cpp
+ *  \file ipcv/final_project/Aging.cpp
  *  \author Anna Mason (axm2129@rit.edu)
- *  \date ## MON 2023
+ *  \date 01 May 2023
  */
 
 #include <iostream>
+#include <vector>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
@@ -19,11 +20,11 @@ namespace ipcv {
 
 /** Function for blurring the "background" of an image with a person
  *
- *  \param[in] src             source image of CV_32FC1
- *  \param[in] mask            mask cv::Mat of CV_32FC1 (1 is the face, 0 is
+ *  \param[in] src             source image of CV_8UC1
+ *  \param[in] mask            mask cv::Mat of CV_8UC1 (1 is the face, 0 is
  *                             the background)
  *
- *  \param[out] dst            destination cv::Mat of ddepth type
+ *  \param[out] dst            output of CV_8UC1
  */
 bool backgroundBlur(const cv::Mat& src, cv::Mat& mask, cv::Mat& dst) {
   //***** I don't even have a pla *****//
@@ -47,7 +48,11 @@ bool backgroundBlur(const cv::Mat& src, cv::Mat& mask, cv::Mat& dst) {
   cv::multiply(inverted_mask, blurred_src, mask_blurred);
 
   // Combine the two frames >> dst
-  dst = mask_unblurred + mask_blurred;
+  cv::Mat temp_dst;
+  temp_dst = mask_unblurred + mask_blurred;
+
+  // Save result
+  temp_dst.convertTo(dst, CV_8UC1);
 
   return true;
 }
