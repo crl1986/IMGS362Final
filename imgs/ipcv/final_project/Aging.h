@@ -23,6 +23,6 @@ namespace ipcv {
  *  \param[in] border_mode     pixel extrapolation method
  *  \param[in] border_value    value to use for constant border mode
  */
-bool cfaKodak(const cv::Mat& src, cv::Mat& dst);
+bool backgroundBlur(const cv::Mat& src, const cv::Mat& mask, cv::Mat& dst);
 }
 

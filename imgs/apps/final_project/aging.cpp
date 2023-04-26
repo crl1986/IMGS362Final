@@ -2,7 +2,7 @@
  *
  *  \file apps/FOLDER/FILENAME.cpp
  *  \author Anna Mason (axm2129@rit.edu)
- *  \date ## Mon 2023
+ *  \date 01 May 2023
  */
 
 #include <ctime>
