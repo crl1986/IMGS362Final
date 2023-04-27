@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
       good_frames.push_back(all_frames[i]);
       
       //cv::Mat mask(all_frames[0].size(), CV_8UC1, cv::Scalar(0));
-      cv::rectangle(mask, faces[0], cv::Scalar(255), cv::FILLED);
+      cv::rectangle(mask, faces[0], cv::Scalar(1), cv::FILLED);
       masks.push_back(mask.clone());
       }
       mask = 0;
@@ -142,20 +142,24 @@ int main(int argc, char* argv[]) {
     selectedMasks.push_back(masks[i].clone());
   }
 
+  vector<Mat> processedFrames;
+  Mat temp_dst;
   for (int i = 0; i < int(selectedFrames.size()); i++) {
-    cv::imshow("Img", selectedFrames[i]);
+    status = ipcv::backgroundBlur(selectedFrames[i], selectedMasks[i], temp_dst);
+    processedFrames.push_back(temp_dst.clone());
+  }
+  
+  for (int i = 0; i < processedFrames.size(); i++){
+    cv::imshow("Hello", processedFrames[i]);
     cv::waitKey(0);
   }
 
-  /*
-    status = ipcv::backgroundBlur(src, mask, dst);
+  if (status == true) {
+    cout << "Background Blur completed successfully" << endl;
+  } else {
+    return EXIT_FAILURE;
+  }
 
-    if (status == true) {
-      cout << "Background Blur completed successfully" << endl;
-    } else {
-      return EXIT_FAILURE;
-    }
-  */
   clock_t endTime = clock();
 
   if (verbose) {
