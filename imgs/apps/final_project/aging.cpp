@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 
   vector<Mat> good_frames, masks;
 
-  for (int i = 0; i < all_frames.size(); i++) {
+  for (int i = 0; i < int(all_frames.size()); i++) {
     cv::equalizeHist(all_frames[i].clone(), equalized);
     cascade.detectMultiScale(equalized, faces, 1.1, 2, 0 | CASCADE_SCALE_IMAGE,
                              cv::Size(30, 30));
@@ -130,18 +130,22 @@ int main(int argc, char* argv[]) {
       }
       mask = 0;
      //break;
-     }
+  }
+  
+  const int desiredFrameCount = 30;
+  int frameSpacing = good_frames.size()/desiredFrameCount;
+  vector<Mat> selectedFrames, selectedMasks;
+  //cout << frameSpacing << endl;
+  for (int i = 0; i < (int(good_frames.size())) - frameSpacing; i+=frameSpacing) {
+    cout << "Adding Frame #" << i << endl;
+    selectedFrames.push_back(good_frames[i].clone());
+    selectedMasks.push_back(masks[i].clone());
+  }
 
-    cout << good_frames.size() << endl;
-
-    imshow("frame 1",good_frames[0]);
-    imshow("frame 2",good_frames[2000]);
-    imshow("frame 3",good_frames[4000]);
-
-    imshow("mask 1",masks[0]);
-    imshow("mask 2",masks[2000]);
-    imshow("mask 3",masks[4000]);
-    waitKey(0);
+  for (int i = 0; i < int(selectedFrames.size()); i++) {
+    cv::imshow("Img", selectedFrames[i]);
+    cv::waitKey(0);
+  }
 
   /*
     status = ipcv::backgroundBlur(src, mask, dst);
