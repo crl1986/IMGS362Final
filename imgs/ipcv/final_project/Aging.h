@@ -9,7 +9,14 @@
 
 #include <opencv2/core.hpp>
 
+using namespace std;
+
 namespace ipcv {
+
+bool Resampler(string raw_filepath, string resampled_filepath,
+               const int dimension_divisor);
+
+bool Vectorizer(string src_filepath, vector<cv::Mat>& all_frames);
 
 /** Function for blurring the "background" of an image with a person
  *

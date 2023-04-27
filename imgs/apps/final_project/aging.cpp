@@ -64,43 +64,40 @@ int main(int argc, char* argv[]) {
     cout << "Destination filename: " << dst_filename << endl;
   }
 
-  cv::Mat dst;
-  cv::Mat mask;
-  string mask_filename =
-      "/cis/ugrad/axm2129/ipcv_final_project/IMGS362Final/data/images/"
-      "final_project/temp_mask.tif";
-  mask = cv::imread(mask_filename, cv::IMREAD_UNCHANGED);
-
   bool status;
+  bool resample = false;
+  std::string resampled_filename = "resampled_src.mp4";
+
+  if (resample) {
+    status = ipcv::Resampler(src_filename, resampled_filename, 4);
+    src_filename = resampled_filename;
+  }
+
   clock_t startTime = clock();
-  if (src.channels() == 1) {
-    status = ipcv::backgroundBlur(src, mask, dst);
+  
+  std::vector<cv::Mat> all_frames;
+  status = ipcv::Vectorizer(src_filename, all_frames);
+  if (status == true) {
+    cout << "Vectorization completed successfully" << endl;
+    status = false;
   } else {
-    cerr << "Invalid source image, must be a 1 channel grayscale image. The "
-            "source image had "
-         << src.channels() << " channel(s)." << endl;
     return EXIT_FAILURE;
   }
-  clock_t endTime = clock();
+/*
+  status = ipcv::backgroundBlur(src, mask, dst);
 
   if (status == true) {
     cout << "Background Blur completed successfully" << endl;
   } else {
     return EXIT_FAILURE;
   }
+*/
+  clock_t endTime = clock();
 
   if (verbose) {
     cout << "Elapsed time: "
          << (endTime - startTime) / static_cast<double>(CLOCKS_PER_SEC)
          << " [s]" << endl;
-  }
-
-  if (dst_filename.empty()) {
-    cv::imshow(src_filename, src);
-    cv::imshow(src_filename + " [CFA Kodak Interpolated]", dst);
-    cv::waitKey(0);
-  } else {
-    cv::imwrite(dst_filename, dst);
   }
 
   return EXIT_SUCCESS;
