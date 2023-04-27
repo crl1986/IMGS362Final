@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
   Mat equalized;
   CascadeClassifier cascade;
   cascade.load(
-      "/usr/local/share/opencv4/haarcascades/haarcascade_frontalcatface.xml");
+      "/usr/local/share/opencv4/haarcascades/haarcascade_frontalface_alt2.xml");
 
   std::vector<cv::Rect> faces;
   cv::Rect rect(1, 1, 2, 2);
