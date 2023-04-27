@@ -12,10 +12,13 @@
 #include <boost/program_options.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
+#include "opencv2/objdetect.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 
 #include "imgs/ipcv/final_project/Aging.h"
 
 using namespace std;
+using namespace cv;
 
 namespace po = boost::program_options;
 
@@ -74,7 +77,7 @@ int main(int argc, char* argv[]) {
   }
 
   clock_t startTime = clock();
-  
+
   std::vector<cv::Mat> all_frames;
   status = ipcv::Vectorizer(src_filename, all_frames);
   if (status == true) {
@@ -83,15 +86,62 @@ int main(int argc, char* argv[]) {
   } else {
     return EXIT_FAILURE;
   }
-/*
-  status = ipcv::backgroundBlur(src, mask, dst);
 
-  if (status == true) {
-    cout << "Background Blur completed successfully" << endl;
-  } else {
-    return EXIT_FAILURE;
-  }
-*/
+  // Micah's Contribution (Eric didn't do anything. Give him a zero)
+
+  Mat equalized;
+  CascadeClassifier cascade;
+  cascade.load(
+      "/usr/local/share/opencv4/haarcascades/haarcascade_frontalcatface.xml");
+
+  std::vector<cv::Rect> faces;
+  cv::Rect rect(1, 1, 2, 2);
+  faces.push_back(rect);
+  int cols = all_frames[0].cols;
+  int rows = all_frames[0].rows;
+  Rect boundary((2*cols/5), (2*rows)/5, cols/5, rows/5);
+  rectangle(all_frames[0], boundary.tl(), boundary.br(), Scalar(255, 0, 0), 2, LINE_8);
+  cout << boundary << endl;
+
+  Point center, tl, br;
+
+  //cv::imshow("Src with Boundary", all_frames[0]);
+  //cv::waitKey(0);
+
+  vector<Mat> good_frames, masks;
+
+  for (int i = 0; i < all_frames.size(); i++) {
+    cv::equalizeHist(all_frames[i].clone(), equalized);
+    cascade.detectMultiScale(equalized, faces, 1.1, 2, 0 | CASCADE_SCALE_IMAGE,
+                             cv::Size(30, 30));
+
+      tl = faces[0].tl();
+      br = faces[0].br();
+      center.x = (tl.x + br.x)/2;
+      center.y = (tl.y + br.y)/2;
+      if(boundary.contains(center)){
+      good_frames.push_back(all_frames[i]);
+      }
+
+     //break;
+     }
+
+    cout << good_frames.size() << endl;
+
+    imshow("frame 1",good_frames[0]);
+    imshow("frame 2",good_frames[2000]);
+    imshow("frame 3",good_frames[4000]);
+    waitKey(0);
+
+  /*
+    status = ipcv::backgroundBlur(src, mask, dst);
+
+    if (status == true) {
+      cout << "Background Blur completed successfully" << endl;
+    } else {
+      return EXIT_FAILURE;
+    }
+  */
   clock_t endTime = clock();
 
   if (verbose) {
