@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 
   vector<Mat> good_frames, masks;
 
-  for (int i = 0; i < int(all_frames.size()); i++) {
+  for (int i = 0; i < int(all_frames.size()/2); i++) {
     cv::equalizeHist(all_frames[i].clone(), equalized);
     cascade.detectMultiScale(equalized, faces, 1.1, 2, 0 | CASCADE_SCALE_IMAGE,
                              cv::Size(30, 30));
