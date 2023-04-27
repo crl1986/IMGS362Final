@@ -107,6 +107,8 @@ int main(int argc, char* argv[]) {
 
   //cv::imshow("Src with Boundary", all_frames[0]);
   //cv::waitKey(0);
+  cv::Mat mask(all_frames[0].size(), CV_8UC1, cv::Scalar(0));
+  //cv::rectangle(mask, faces[0], cv::Scalar(255), cv::FILLED);
 
   vector<Mat> good_frames, masks;
 
@@ -121,8 +123,12 @@ int main(int argc, char* argv[]) {
       center.y = (tl.y + br.y)/2;
       if(boundary.contains(center)){
       good_frames.push_back(all_frames[i]);
+      
+      //cv::Mat mask(all_frames[0].size(), CV_8UC1, cv::Scalar(0));
+      cv::rectangle(mask, faces[0], cv::Scalar(255), cv::FILLED);
+      masks.push_back(mask.clone());
       }
-
+      mask = 0;
      //break;
      }
 
@@ -131,6 +137,10 @@ int main(int argc, char* argv[]) {
     imshow("frame 1",good_frames[0]);
     imshow("frame 2",good_frames[2000]);
     imshow("frame 3",good_frames[4000]);
+
+    imshow("mask 1",masks[0]);
+    imshow("mask 2",masks[2000]);
+    imshow("mask 3",masks[4000]);
     waitKey(0);
 
   /*
