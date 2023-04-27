@@ -25,8 +25,8 @@ namespace po = boost::program_options;
 int main(int argc, char* argv[]) {
   // Intialization
   bool verbose = false;
-  string src_filename = "";
-  string dst_filename = "";
+  string src_filename = "../aging_ds_12.mp4";
+  string dst_filename = "../final_video.avi";
 
   // Boost Program Settings
   po::options_description options("Options");
@@ -148,10 +148,10 @@ int main(int argc, char* argv[]) {
     status = ipcv::backgroundBlur(selectedFrames[i], selectedMasks[i], temp_dst);
     processedFrames.push_back(temp_dst.clone());
   }
-  
+ 
   for (int i = 0; i < processedFrames.size(); i++){
     cv::imshow("Hello", processedFrames[i]);
-    cv::waitKey(0);
+    cv::waitKey(333);
   }
 
   if (status == true) {
@@ -159,6 +159,14 @@ int main(int argc, char* argv[]) {
   } else {
     return EXIT_FAILURE;
   }
+
+  VideoWriter output(dst_filename, VideoWriter::fourcc('a','v','c','1'),3,Size(processedFrames[0].cols,processedFrames[0].rows));
+
+for(const auto& single_frame: processedFrames){
+output.write(single_frame);
+}
+
+output.release();
 
   clock_t endTime = clock();
 
