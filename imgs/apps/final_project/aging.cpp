@@ -148,10 +148,17 @@ int main(int argc, char* argv[]) {
     status = ipcv::backgroundBlur(selectedFrames[i], selectedMasks[i], temp_dst);
     processedFrames.push_back(temp_dst.clone());
   }
- 
-  for (int i = 0; i < processedFrames.size(); i++){
-    cv::imshow("Hello", processedFrames[i]);
-    cv::waitKey(333);
+  
+  // Uncomment for imshow
+  //for (int i = 0; i < int(processedFrames.size()); i++){
+  //  cv::imshow("Hello", processedFrames[i]);
+  //  cv::waitKey(333);
+  //}
+  // Uncomment to save images
+  cout << "Saving frames" << endl;
+  for (int i = 0; i < int(processedFrames.size()); i++) {
+    string filename = to_string(i)+".jpg";
+    cv::imwrite(filename, processedFrames[i]);
   }
 
   if (status == true) {
